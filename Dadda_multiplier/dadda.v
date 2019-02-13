@@ -1,18 +1,13 @@
 `timescale 1 ps / 1 fs
 
-
 module FA(output sum, cout, input a, b, cin);
   wire w0, w1, w2;
-  
   xor (w0, a, b);
   xor #(120) (sum, w0, cin);
-  
   and (w1, w0, cin);
   and  (w2, a, b);
   or #(80) (cout, w1, w2);
-  
 endmodule
-
 
 module HA( 
 	output hs, hcout,
@@ -23,19 +18,14 @@ module HA(
  xor #(70) u1(hs,hx1,hx2);
  and #(40) u2(hcout,hx1,hx2);
 
-
 endmodule
-
-
 
 module m_2_1_2(output y, input i0, i1, s);
 
   wire e0, e1;
   not (sn, s);
-  
   and  (e0, i0, sn);
   and  (e1, i1, s);
-  
   or  #(50)(y, e0, e1);
   
 endmodule
@@ -65,7 +55,6 @@ endmodule
 module ripple_carry(output [3:0] sum, output cout, input [3:0] a, b, input cin);
   
   wire [3:1] c;
-  
   FA fa0(sum[0], c[1], a[0], b[0], cin);
   FA fa[2:1](sum[2:1], c[3:2], a[2:1], b[2:1], c[2:1]);
   FA fa31(sum[3], cout, a[3], b[3], c[3]);
@@ -204,77 +193,83 @@ endmodule
    //wire [ 1 : 0 ] ha_03_st_1 = row_06_st_0 [  7 ] + row_07_st_0 [  7 ]    ;  //-half adder 7      
 
 
-   assign row_00_st_1 = { row_08_st_0 [ 15 : 11 ] , 
-                                 fa_04_st_1 [ 0 ] , //10
-                                 fa_00_st_1 [ 0 ] , //9
-                                 fa_01_st_1 [ 0 ] , //8
-											fa_02_st_1 [ 0 ] , //need to be added	7	
-											fa_03_st_1 [ 0 ] , //need to be added	6												
-                                 ha_00_st_1 [ 0 ] , //5
+   assign row_00_st_1 = { 
+                          row_08_st_0 [ 15 : 11 ] , 
+                          fa_04_st_1 [ 0 ] , //10
+                          fa_00_st_1 [ 0 ] , //9
+                          fa_01_st_1 [ 0 ] , //8
+                          fa_02_st_1 [ 0 ] , //need to be added	7	
+                          fa_03_st_1 [ 0 ] , //need to be added	6												
+                          ha_00_st_1 [ 0 ] , //5
                           row_00_st_0 [  4 :  0 ]   
                         } ;
 
-   assign row_01_st_1 = { row_07_st_0 [ 15 : 12 ] , 
-                                 fa_04_st_1 [ 1 ] , //11
-                                 fa_00_st_1 [ 1 ] , //10
-                                 fa_01_st_1 [ 1 ] , //9
-											fa_02_st_1 [ 1 ] , //8
-											fa_03_st_1 [ 1 ] , //7
-                                 ha_00_st_1 [ 1 ] , //5 
-                          row_02_st_0 [  5      ] , //5
-                          row_01_st_0 [  4 :  1 ] ,
-								  row_08_st_0 [0] 
+   assign row_01_st_1 = { 
+                          row_07_st_0 [ 15 : 12 ] , 
+                          fa_04_st_1 [ 1 ] , //11
+                          fa_00_st_1 [ 1 ] , //10
+                          fa_01_st_1 [ 1 ] , //9
+                          fa_02_st_1 [ 1 ] , //8
+                          fa_03_st_1 [ 1 ] , //7
+                          ha_00_st_1 [ 1 ] , //5 
+                          row_02_st_0 [ 5 ] , //5
+                          row_01_st_0 [4 : 1] ,
+                          row_08_st_0 [0] 
                         } ;
 
 
-   assign row_02_st_1 = { row_06_st_0 [ 15 :  10 ] , 
-                                 fa_05_st_1 [0],
-											fa_06_st_1 [0],
-											fa_07_st_1 [0],
-											ha_01_st_1 [ 0 ] , 
-                          row_03_st_0 [  5      ] , 
-                          row_02_st_0 [  4 :  2 ],
-								  row_08_st_0 [1],
-								  row_02_st_0 [0 ]								  
+   assign row_02_st_1 = { 
+                          row_06_st_0 [15 : 10] , 
+                          fa_05_st_1 [0],
+                          fa_06_st_1 [0],
+                          fa_07_st_1 [0],
+                          ha_01_st_1 [ 0 ] , 
+                          row_03_st_0 [ 5 ] , 
+                          row_02_st_0 [4 : 2],
+                          row_08_st_0 [1],
+                          row_02_st_0 [0 ]								  
                         } ;
 
-   assign row_03_st_1 = { row_05_st_0 [ 15 : 11 ] , 
-                                 fa_05_st_1 [1],
-											fa_06_st_1 [1],
-											fa_07_st_1 [1],
-                                 ha_01_st_1 [ 1 ] , 
-                          row_05_st_0 [  6      ] , 
-                          row_04_st_0 [  5      ] , 
-                          row_03_st_0 [  4 :  3 ],
+   assign row_03_st_1 = { 
+                          row_05_st_0 [15 : 11] , 
+                          fa_05_st_1 [1],
+                          fa_06_st_1 [1],
+                          fa_07_st_1 [1],
+                          ha_01_st_1 [1] , 
+                          row_05_st_0 [6] , 
+                          row_04_st_0 [5] , 
+                          row_03_st_0 [4:3],
                           row_08_st_0 [2],
-								  row_03_st_0 [1:0 ]								  
+                          row_03_st_0 [1:0]								  
                         } ;
 
-   assign row_04_st_1 = { row_02_st_0 [  15:12],
-									row_07_st_0 [  11], 
-                          row_08_st_0 [  10      ],
-								  row_08_st_0 [  9      ],
-								  
-								  ha_03_st_1 [ 0 ],
-								  ha_02_st_1 [ 0 ],
-                          row_06_st_0 [  6      ] , 
-                          row_05_st_0 [  5      ] , 
-                          row_04_st_0 [  4 ],   
+   assign row_04_st_1 = { 
+                          row_02_st_0 [15:12],
+                          row_07_st_0 [11], 
+                          row_08_st_0 [10 ],
+                          row_08_st_0 [9 ],
+
+                          ha_03_st_1 [ 0 ],
+                          ha_02_st_1 [ 0 ],
+                          row_06_st_0 [6] , 
+                          row_05_st_0 [5] , 
+                          row_04_st_0 [4],   
                           row_08_st_0 [3],
-								  row_04_st_0 [2:0 ]
+		        						  row_04_st_0 [2:0]
                         } ;
-   assign row_05_st_1 = { row_02_st_0 [ 15 : 12 ] , 
-                          row_04_st_0 [ 11     ] , 
-                          row_06_st_0 [  10      ] , 
-								  
-								  								  
-								  ha_03_st_1 [ 1 ],
-								  ha_02_st_1 [ 1 ],
-                          row_08_st_0 [  7      ] , 
-                          row_08_st_0 [  6      ] , 
-                          row_08_st_0 [  5      ] ,
-                          row_08_st_0 [  4      ] ,								  
-                          row_05_st_0 [  3 :  0 ]   
+   assign row_05_st_1 = { 
+                          row_02_st_0 [15:12] , 
+                          row_04_st_0 [11] , 
+                          row_06_st_0 [10] , 
+
+
+                          ha_03_st_1 [ 1 ],
+                          ha_02_st_1 [ 1 ],
+                          row_08_st_0 [7] , 
+                          row_08_st_0 [6] , 
+                          row_08_st_0 [5] ,
+                          row_08_st_0 [4] ,								  
+                          row_05_st_0 [3:0]   
                         } ;
 
    //
@@ -325,59 +320,63 @@ endmodule
 		
 
 	
-   assign row_00_st_2 = { row_00_st_1 [ 15 : 13 ] , 
-	                              fa_08_st_2 [ 0 ] , 
-                                 fa_07_st_2 [ 0 ] , 
-                                 fa_06_st_2 [ 0 ] , 
-                                 fa_05_st_2 [ 0 ] , 
-                                 fa_04_st_2 [ 0 ] , 
-                                 fa_03_st_2 [ 0 ] , 
-                                 fa_02_st_2 [ 0 ] , 
-                                 fa_01_st_2 [ 0 ] , 
-                                 fa_00_st_2 [ 0 ] , 
-                                 ha_00_st_2 [ 0 ] , 
+   assign row_00_st_2 = { 
+                          row_00_st_1 [ 15 : 13 ] , 
+                          fa_08_st_2 [ 0 ] , 
+                          fa_07_st_2 [ 0 ] , 
+                          fa_06_st_2 [ 0 ] , 
+                          fa_05_st_2 [ 0 ] , 
+                          fa_04_st_2 [ 0 ] , 
+                          fa_03_st_2 [ 0 ] , 
+                          fa_02_st_2 [ 0 ] , 
+                          fa_01_st_2 [ 0 ] , 
+                          fa_00_st_2 [ 0 ] , 
+                          ha_00_st_2 [ 0 ] , 
                           row_00_st_1 [  2 :  0 ]   
                         } ;
 
-   assign row_01_st_2 = { row_01_st_1 [ 15 : 14 ] , 
-	                              fa_08_st_2 [ 1 ] , 
-                                 fa_07_st_2 [ 1 ] , 
-                                 fa_06_st_2 [ 1 ] , 
-                                 fa_05_st_2 [ 1 ] , 
-                                 fa_04_st_2 [ 1 ] , 
-                                 fa_03_st_2 [ 1 ] , 
-                                 fa_02_st_2 [ 1 ] , 
-                                 fa_01_st_2 [ 1 ] , 
-                                 fa_00_st_2 [ 1 ] , 
-                                 ha_00_st_2 [ 1 ] ,
+   assign row_01_st_2 = { 
+                          row_01_st_1 [ 15 : 14 ] , 
+                          fa_08_st_2 [ 1 ] , 
+                          fa_07_st_2 [ 1 ] , 
+                          fa_06_st_2 [ 1 ] , 
+                          fa_05_st_2 [ 1 ] , 
+                          fa_04_st_2 [ 1 ] , 
+                          fa_03_st_2 [ 1 ] , 
+                          fa_02_st_2 [ 1 ] , 
+                          fa_01_st_2 [ 1 ] , 
+                          fa_00_st_2 [ 1 ] , 
+                          ha_00_st_2 [ 1 ] ,
                           row_02_st_1 [  3      ] , 
                           row_01_st_1 [  2 :  0 ]   
                         } ;
 
-   assign row_02_st_2 = { row_02_st_1 [ 15 : 13 ] , 
+   assign row_02_st_2 = { 
+                          row_02_st_1 [ 15 : 13 ] , 
                           row_03_st_1 [ 12      ] , 
-                                 fa_15_st_2 [ 0 ] , 
-                                 fa_14_st_2 [ 0 ] , 
-                                 fa_13_st_2 [ 0 ] , 
-                                 fa_12_st_2 [ 0 ] , 
-                                 fa_11_st_2 [ 0 ] , 
-                                 fa_10_st_2 [ 0 ] , 
-                                 fa_09_st_2 [ 0 ] , 
-                                 ha_01_st_2 [ 0 ] , 
+                          fa_15_st_2 [ 0 ] , 
+                          fa_14_st_2 [ 0 ] , 
+                          fa_13_st_2 [ 0 ] , 
+                          fa_12_st_2 [ 0 ] , 
+                          fa_11_st_2 [ 0 ] , 
+                          fa_10_st_2 [ 0 ] , 
+                          fa_09_st_2 [ 0 ] , 
+                          ha_01_st_2 [ 0 ] , 
                           row_03_st_1 [  3      ] , 
                           row_02_st_1 [  2 :  0 ]   
                         } ;
 
-   assign row_03_st_2 = { row_04_st_1 [ 15 : 14 ] ,
-									row_02_st_1 [ 13 ],	
-                                 fa_15_st_2 [ 1 ] , 
-                                 fa_14_st_2 [ 1 ] , 
-                                 fa_13_st_2 [ 1 ] , 
-                                 fa_12_st_2 [ 1 ] , 
-                                 fa_11_st_2 [ 1 ] , 
-                                 fa_10_st_2 [ 1 ] , 
-                                 fa_09_st_2 [ 1 ] , 
-                                 ha_01_st_2 [ 1 ] , 
+   assign row_03_st_2 = { 
+                          row_04_st_1 [ 15 : 14 ] ,
+                          row_02_st_1 [ 13 ],	
+                          fa_15_st_2 [ 1 ] , 
+                          fa_14_st_2 [ 1 ] , 
+                          fa_13_st_2 [ 1 ] , 
+                          fa_12_st_2 [ 1 ] , 
+                          fa_11_st_2 [ 1 ] , 
+                          fa_10_st_2 [ 1 ] , 
+                          fa_09_st_2 [ 1 ] , 
+                          ha_01_st_2 [ 1 ] , 
                           row_05_st_1 [  4      ] , 
                           row_04_st_1 [  3      ] , 
                           row_03_st_1 [  2 :  0 ]   
@@ -417,40 +416,43 @@ endmodule
   HA ha_00_s3 (ha_00_st_3[0],ha_00_st_3[1],row_00_st_1 [  2 ] , row_01_st_1 [  2 ] );
 
 
-   assign row_00_st_3 = { row_00_st_2 [ 15 : 14 ] ,
-											fa_10_st_3 [ 0 ] , 
-                                 fa_09_st_3 [ 0 ] ,	
-                                 fa_08_st_3 [ 0 ] , 
-                                 fa_07_st_3 [ 0 ] , 
-                                 fa_06_st_3 [ 0 ] , 
-                                 fa_05_st_3 [ 0 ] , 
-                                 fa_04_st_3 [ 0 ] , 
-                                 fa_03_st_3 [ 0 ] , 
-                                 fa_02_st_3 [ 0 ] , 
-                                 fa_01_st_3 [ 0 ] , 
-                                 fa_00_st_3 [ 0 ] , 
-                                 ha_00_st_3 [ 0 ] , 
+   assign row_00_st_3 = { 
+                          row_00_st_2 [ 15 : 14 ] ,
+                          fa_10_st_3 [ 0 ] , 
+                          fa_09_st_3 [ 0 ] ,	
+                          fa_08_st_3 [ 0 ] , 
+                          fa_07_st_3 [ 0 ] , 
+                          fa_06_st_3 [ 0 ] , 
+                          fa_05_st_3 [ 0 ] , 
+                          fa_04_st_3 [ 0 ] , 
+                          fa_03_st_3 [ 0 ] , 
+                          fa_02_st_3 [ 0 ] , 
+                          fa_01_st_3 [ 0 ] , 
+                          fa_00_st_3 [ 0 ] , 
+                          ha_00_st_3 [ 0 ] , 
                           row_00_st_2 [  1 :  0 ]   
                         } ;
 
-   assign row_01_st_3 = { row_01_st_2 [ 15 ] , 
-											fa_10_st_3 [ 1 ] , 
-                                 fa_09_st_3 [ 1 ] ,	
-                                 fa_08_st_3 [ 1 ] , 
-                                 fa_07_st_3 [ 1 ] , 
-                                 fa_06_st_3 [ 1 ] , 
-                                 fa_05_st_3 [ 1 ] , 
-                                 fa_04_st_3 [ 1 ] , 
-                                 fa_03_st_3 [ 1 ] , 
-                                 fa_02_st_3 [ 1 ] , 
-                                 fa_01_st_3 [ 1 ] , 
-                                 fa_00_st_3 [ 1 ] , 
-                                 ha_00_st_3 [ 1 ] , 
+   assign row_01_st_3 = { 
+                          row_01_st_2 [ 15 ] , 
+                          fa_10_st_3 [ 1 ] , 
+                          fa_09_st_3 [ 1 ] ,	
+                          fa_08_st_3 [ 1 ] , 
+                          fa_07_st_3 [ 1 ] , 
+                          fa_06_st_3 [ 1 ] , 
+                          fa_05_st_3 [ 1 ] , 
+                          fa_04_st_3 [ 1 ] , 
+                          fa_03_st_3 [ 1 ] , 
+                          fa_02_st_3 [ 1 ] , 
+                          fa_01_st_3 [ 1 ] , 
+                          fa_00_st_3 [ 1 ] , 
+                          ha_00_st_3 [ 1 ] , 
                           row_02_st_2 [  2      ] , 
                           row_01_st_2 [  1 :  0 ]   
                         } ;
 
-   assign row_02_st_3 = { row_01_st_2 [ 15:  14    ] ,  
+   assign row_02_st_3 = { 
+                          row_01_st_2 [ 15:  14    ] ,  
                           row_03_st_2 [ 13 :  2 ] , 
                           row_02_st_2 [  1 :  0 ]   
                         } ;
@@ -492,39 +494,40 @@ FA fa0_12_s4(fa_12_st_4[0], fa_12_st_4[1], row_00_st_3 [  14 ], row_01_st_3 [  1
 
 HA ha_00_s4 (ha_00_st_4[0],ha_00_st_4[1],row_00_st_1 [  1 ] , row_01_st_1 [  1 ] );
 
-   assign row_00_st_4 = { row_00_st_3 [ 15      ] ,
-											fa_12_st_4 [ 0 ] ,
-                                 fa_11_st_4 [ 0 ] , 
-                                 fa_10_st_4 [ 0 ] , 
-                                 fa_09_st_4 [ 0 ] , 
-                                 fa_08_st_4 [ 0 ] , 
-                                 fa_07_st_4 [ 0 ] , 
-                                 fa_06_st_4 [ 0 ] , 
-                                 fa_05_st_4 [ 0 ] , 
-                                 fa_04_st_4 [ 0 ] , 
-                                 fa_03_st_4 [ 0 ] , 
-                                 fa_02_st_4 [ 0 ] , 
-                                 fa_01_st_4 [ 0 ] , 
-											fa_00_st_4 [ 0 ] ,
-                                 ha_00_st_4 [ 0 ] , 
+   assign row_00_st_4 = { 
+                          row_00_st_3 [ 15      ] ,
+                          fa_12_st_4 [ 0 ] ,
+                          fa_11_st_4 [ 0 ] , 
+                          fa_10_st_4 [ 0 ] , 
+                          fa_09_st_4 [ 0 ] , 
+                          fa_08_st_4 [ 0 ] , 
+                          fa_07_st_4 [ 0 ] , 
+                          fa_06_st_4 [ 0 ] , 
+                          fa_05_st_4 [ 0 ] , 
+                          fa_04_st_4 [ 0 ] , 
+                          fa_03_st_4 [ 0 ] , 
+                          fa_02_st_4 [ 0 ] , 
+                          fa_01_st_4 [ 0 ] , 
+                          fa_00_st_4 [ 0 ] ,
+                          ha_00_st_4 [ 0 ] , 
                           row_00_st_3 [ 0 ]   
                         } ;
 
    assign row_01_st_4 = {                           
-											fa_12_st_4 [ 1 ] ,
-                                 fa_11_st_4 [ 1 ] , 
-                                 fa_10_st_4 [ 1 ] , 
-                                 fa_09_st_4 [ 1 ] , 
-                                 fa_08_st_4 [ 1 ] , 
-                                 fa_07_st_4 [ 1 ] , 
-                                 fa_06_st_4 [ 1 ] , 
-                                 fa_05_st_4 [ 1 ] , 
-                                 fa_04_st_4 [ 1 ] , 
-                                 fa_03_st_4 [ 1 ] , 
-                                 fa_02_st_4 [ 1 ] , 
-                                 fa_01_st_4 [ 1 ] ,
-											fa_00_st_4 [ 1 ] ,											
-                                 ha_00_st_4 [ 1 ] , 
+                          fa_12_st_4 [ 1 ] ,
+                          fa_11_st_4 [ 1 ] , 
+                          fa_10_st_4 [ 1 ] , 
+                          fa_09_st_4 [ 1 ] , 
+                          fa_08_st_4 [ 1 ] , 
+                          fa_07_st_4 [ 1 ] , 
+                          fa_06_st_4 [ 1 ] , 
+                          fa_05_st_4 [ 1 ] , 
+                          fa_04_st_4 [ 1 ] , 
+                          fa_03_st_4 [ 1 ] , 
+                          fa_02_st_4 [ 1 ] , 
+                          fa_01_st_4 [ 1 ] ,
+                          fa_00_st_4 [ 1 ] ,											
+                          ha_00_st_4 [ 1 ] , 
                           row_02_st_3 [  1      ] , 
                           row_01_st_3 [ 0 ]   
                         } ;
