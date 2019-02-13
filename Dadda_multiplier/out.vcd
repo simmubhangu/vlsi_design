@@ -1,0 +1,66 @@
+$date
+	Mon Nov 12 21:17:22 2018
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1fs
+$end
+$scope module dadda_tb $end
+$var reg 8 ! a [7:0] $end
+$upscope $end
+$scope module dadda_tb $end
+$var reg 8 " b [7:0] $end
+$upscope $end
+$scope module dadda_tb $end
+$var reg 16 # acc [15:0] $end
+$upscope $end
+$scope module dadda_tb $end
+$var wire 17 $ p [16:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx $
+bx #
+bx "
+bx !
+$end
+#1000
+b11111111 !
+b1111 "
+b11111111 #
+#171000
+bx0 $
+#211000
+b0xxxxxxxxxxxxxxx0 $
+#251000
+b0xxxxxxxxxxxxxx00 $
+#361000
+b0xxxxxxxxxxxxx000 $
+#481000
+b0xxxxxxxxxxxx0000 $
+#491000
+b0xxxxxxxxxxx0000 $
+#531000
+b0xxxxxxxxxx10000 $
+#571000
+b0xxxxxxxxx10000 $
+#611000
+b0xxxxxxxx110000 $
+#651000
+b0xxxxxxx110000 $
+#681000
+b0xxxxxx1110000 $
+#731000
+b0xxxxx11110000 $
+#741000
+b0xxx1111110000 $
+#811000
+b0xx11111110000 $
+#891000
+b0x111111110000 $
+#901000
+b1111111110000 $
+#1000000
